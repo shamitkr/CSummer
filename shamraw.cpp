@@ -73,6 +73,27 @@ void deletat( int pos2) {
 						temp2 = temp2 -> next;
 						delete temp2; } }
 			else { cout << "not " << endl;} }
+	
+	void ReverseLL() {
+			int i,j;
+			i=0;
+			j= (count() -1);
+			node*p=head;
+			node*q=head;
+			while(i<j) { int k=0;
+			
+			while (k<j) { 
+						q = q->next;	
+						k++; }
+			node*n1= new node( p -> val) ;
+			p -> val = q -> val;
+			q -> val = n1 -> val;
+			delete n1;
+ 			i++;
+			j--; 
+			p = p -> next;
+			q = head; 
+			}	}		
 };						 
 
 int main () {
