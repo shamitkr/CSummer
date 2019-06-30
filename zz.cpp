@@ -99,8 +99,8 @@ void replaceinparent(node*n1,node*n2) {
 	if (n1==root) {
 			root = n2; }
 	else {
-	if (n1->parent->left=n1) {
-		n1->parent->left=n1;
+	if (n1->parent->left==n1) {
+		n1->parent->left=n2;
 		}
 	else {
 		n1->parent->right=n2;
@@ -116,54 +116,52 @@ void delethelper(node*current,int val1) {
 		cout << "element doesnt exist" << endl;
 			}
 	else {
+	// 2 child case
+	// 1 child case
+	// Else 0 child case
+
+
+	// 0 child case
 		 if (curr->left==NULL && curr->right==NULL) {
 			if (curr==root) {
 					root = NULL;
 					}
 			else {
-				//replaceinparent(curr,NULL); 
-			    
-				if (curr->parent->left=curr) {
-		curr->parent->left=NULL;
-		}
-	else {
-		curr->parent->right=NULL;
-		}
-	 
-			    }                              }
-		else if (curr->left==NULL || curr->right==NULL) {
+			replaceinparent(curr,NULL); 
+				  }	 
+		     //    1 or 2 children case                                   }
+			else if (curr->left==NULL || curr->right==NULL) {
 				if (curr== root) {
 					if (curr->left!=NULL) {
-								root=curr->left;
-								delete curr;
-							     }
+						root=curr->left;
+						delete curr;
+					}
 					else {			
 						root = curr->right;
 						delete curr; 
-						}
-						 }
-							
-			     else if (curr->left!=NULL) {
-	
-							replaceinparent(curr->parent->left,curr->left);
-							delete curr; 
-							}
-			    else {
-					replaceinparent(curr->parent->right,curr->right);
-							delete curr; 
-							}	 		
-							      }
+					}
+				}
+				else if (curr->left!=NULL) {
+					replaceinparent(curr,curr->left);
+					delete curr; 
+				}
+				else {
+					replaceinparent(curr,curr->right);
+					delete curr; 
+				}	 		
+			}
 		else {
 			node*ops=findmaxhelper(curr->left);
-			curr->val=ops->val;
-			ops->parent->right=NULL;
-			delete ops;
+			curr->val=ops->val; // Value from ops to curr
+			//ops->parent->right=NULL;
+			delethelper(ops,ops->val);
 		     } 
 			} 
 					}
 void delet(int val1) {
 	delethelper(root,val1); 
 			}
+
 };
 int main() {
 	bst b1;
@@ -175,10 +173,10 @@ int main() {
 	b1.insert(1);
 	b1.display();
 	cout<<endl;
-	b1.search(1);
+	//b1.search(1);
 	//b1.findmax();
-	b1.delet(8);
+	b1.delet(6);
 	b1.display();
 	return 0; 
-	  }
+}
 		
