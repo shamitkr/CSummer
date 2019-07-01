@@ -96,9 +96,9 @@ node*findmax(){
 	return p; 
 		}
 void replaceinparent(node*n1,node*n2) {
-	if (n1==root) {
-			root = n2; }
-	else {
+	//if (n1==root) {
+			//root = n2; }
+	//else {
 	if (n1->parent->left==n1) {
 		n1->parent->left=n2;
 		}
@@ -107,76 +107,99 @@ void replaceinparent(node*n1,node*n2) {
 		}
 	 n2->parent=n1->parent;
 	n1->parent=NULL;
-				}	}		
-void delethelper(node*current,int val1) {
+				//}
+	}		
+void delethelper(node*current,int val1,node*curr1) {
 		if (current==NULL) {
 			return ; }
-	node*curr=searchhelper(root,val1);
+	node*curr=searchhelper(curr1,val1);
 	if (curr==NULL) {
 		cout << "element doesnt exist" << endl;
 			}
 	else {
-	// 2 child case
-	// 1 child case
-	// Else 0 child case
-
-
-	// 0 child case
-		 if (curr->left==NULL && curr->right==NULL) {
+		 if (curr->left!=NULL && curr->right!=NULL) {
+								node*ops=findmaxhelper(curr->left);
+								curr->val=ops->val;
+								delethelper(root,ops->val,ops);
+								 									    
+								}
+		else if (curr->left!=NULL || curr->right!=NULL ) {
+								 	if (curr==root) {		
+											 if (curr->left!=NULL) {
+														root=curr->left;
+														root->parent=NULL;
+														delete curr; 
+														}
+											else {
+												root = curr->right;
+												root->parent=NULL;
+												delete curr;
+											      }
+									                     }
+									else {
+										if (curr->left!=NULL) {
+										if(curr->parent->left==curr){
+										curr->parent->left=curr->left;
+										curr->left->parent=curr->parent;
+															
+										delete curr; }
+										else {
+					  					curr->parent->right=curr->left;
+										curr->left->parent=curr->parent;
+										delete curr; }				
+												      }
+										else {
+											
+										if(curr->parent->left==curr){
+										curr->parent->left=curr->right;
+										curr->left->parent=curr->parent;
+												              			
+										delete curr; }
+										else {
+					  					curr->parent->right=curr->right;
+										curr->left->parent=curr->parent;
+										delete curr; }	
+										     }
+									      } 
+								    }
+	        else {
 			if (curr==root) {
-					root = NULL;
+					root=NULL;
 					}
 			else {
-			replaceinparent(curr,NULL); 
-				  }	 
-		     //    1 or 2 children case                                   }
-			else if (curr->left==NULL || curr->right==NULL) {
-				if (curr== root) {
-					if (curr->left!=NULL) {
-						root=curr->left;
-						delete curr;
-					}
-					else {			
-						root = curr->right;
-						delete curr; 
-					}
-				}
-				else if (curr->left!=NULL) {
-					replaceinparent(curr,curr->left);
-					delete curr; 
-				}
-				else {
-					replaceinparent(curr,curr->right);
-					delete curr; 
-				}	 		
-			}
-		else {
-			node*ops=findmaxhelper(curr->left);
-			curr->val=ops->val; // Value from ops to curr
-			//ops->parent->right=NULL;
-			delethelper(ops,ops->val);
-		     } 
-			} 
-					}
-void delet(int val1) {
-	delethelper(root,val1); 
-			}
+				if (curr->parent->left==curr) {
+					curr->parent->left=NULL;
+								}
+					else {
+					curr->parent->right=NULL;
+						}
+	 				
+					curr->parent=NULL;
+			      }
+		     }
+		} }
+			
 
+void delet(int val1) {
+	delethelper(root,val1,root); 
+			}
 };
 int main() {
 	bst b1;
-	b1.insert(5);
+	b1.insert(7);
 	b1.insert(3);
-	b1.insert(4);
 	b1.insert(6);
 	b1.insert(8);
+	b1.insert(5);
+	b1.insert(4);
 	b1.insert(1);
 	b1.display();
 	cout<<endl;
-	//b1.search(1);
+	b1.search(1);
 	//b1.findmax();
-	b1.delet(6);
+	b1.delet(3);
 	b1.display();
 	return 0; 
-}
+	  }
+		
 		
